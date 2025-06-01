@@ -119,12 +119,29 @@ SELECT COUNT(id) AS 'Total Product',
         SUM(quantity) AS 'Stok product'
 FROM products;
 
+-- GROUP BY https://dev.mysql.com/doc/refman/8.0/en/group-by-modifiers.html  
+SELECT category, 
+		COUNT(id) AS 'Total Product',
+		MAX(price) AS 'Product Termahal',
+        MIN(price) AS 'Product Termurah',
+        AVG(price) AS 'Rata-rata harga product',
+        SUM(quantity) AS 'Stok product'
+FROM products GROUP BY category;
+
+-- HAVING
+SELECT category, COUNT(id) AS 'Total'
+FROM products GROUP BY category
+HAVING Total > 8;
+
 ALTER TABLE products
 ADD COLUMN category ENUM('Rumah Tangga', 'Alat Mandi') AFTER name;
 
 UPDATE products SET category = 'Rumah Tangga' WHERE id = 'P1685356801';
 UPDATE products SET category = 'Alat Mandi', description = 'Minyak real' WHERE id = 'P02';
 UPDATE products SET price = price + 1000 WHERE id = 'P01';
+
+SELECT * FROM products;
+UPDATE products SET category = 'Alat Mandi' WHERE id =  ('P1685356834','P1685356856');
 
 DELETE FROM products WHERE id = 'P02';
 
@@ -137,7 +154,24 @@ SELECT p.id as 'Kode',
         p.quantity as 'Jumlah'
         From products AS p;
 
+-- CONSTRAINT CHECK
+ALTER TABLE products
+ADD CONSTRAINT price_check CHECK (price >= 1000 AND price <= 100000);
 
+INSERT INTO products (id, name, category, price, quantity)
+VALUES ('P0129321029', 'Sabun Kodok', 'Alat Mandi', '500', '100'),
+		('P0129321192','Beras Kepompong', 'Rumah Tangga', '`101000', '10');
+        
+-- FULLTEXT SEARCH
+ALTER TABLE products
+ADD FULLTEXT product_search (name, description);
+
+SHOW CREATE TABLE products;
+SELECT * FROM products;
+
+SELECT * FROM PRODUCTS WHERE MATCH (name, description) AGAINST ('Sandal' IN NATURAL LANGUAGE MODE);
+SELECT * FROM PRODUCTS WHERE MATCH (name, description) AGAINST ('+Sandal -Wanita' IN BOOLEAN MODE);
+SELECT * FROM PRODUCTS WHERE MATCH (name, description) AGAINST ('Terigu' WITH QUERY EXPANSION);
 
 
 

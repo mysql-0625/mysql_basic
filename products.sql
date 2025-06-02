@@ -173,6 +173,28 @@ SELECT * FROM PRODUCTS WHERE MATCH (name, description) AGAINST ('Sandal' IN NATU
 SELECT * FROM PRODUCTS WHERE MATCH (name, description) AGAINST ('+Sandal -Wanita' IN BOOLEAN MODE);
 SELECT * FROM PRODUCTS WHERE MATCH (name, description) AGAINST ('Terigu' WITH QUERY EXPANSION);
 
+-- Inner Join (Default join in mysql)
+SELECT * FROM products;
+SELECT * FROM categories;
+
+INSERT INTO products (id, name, price, quantity) VALUES ('PP1685357013', 'Beras Ramok 5kg', '75000', '10'), ('PP1685357022', 'Minyak Zaitun 2L', '98000', '23');
+INSERT INTO categories (id, name) VALUES ('C004','Elektronik'), ('C005','Sekolah');
+
+SELECT * FROM categories
+INNER JOIN products ON (products.id_category = categories.id);
+
+-- Left Join
+SELECT * FROM categories
+LEFT JOIN products ON (products.id_category = categories.id);
+
+-- Right Join
+SELECT * FROM categories
+RIGHT JOIN products ON (products.id_category = categories.id);
+
+-- Cross Join (Jarang digunakan)
+SELECT * FROM categories 
+CROSS JOIN products;
+
 
 
 

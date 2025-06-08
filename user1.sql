@@ -1,0 +1,33 @@
+-- LOCKING
+START TRANSACTION;
+SELECT * FROM guestbooks;
+UPDATE guestbooks SET title = 'diganti user 1' WHERE id =1;
+COMMIT;
+
+-- LOCKING MANUAL
+START TRANSACTION;
+SELECT * FROM products WHERE id = 'P1685356801' FOR UPDATE;
+UPDATE products SET QUANTITY = QUANTITY - 10 WHERE id = 'P1685356801';
+COMMIT;
+
+-- DEADLOCK (saling menunggu)
+START TRANSACTION;
+SELECT * FROM products WHERE id = 'P1685356801' FOR UPDATE;
+SELECT * FROM products WHERE id = 'P1685356802' FOR UPDATE; -- Menunggu di lock user 2
+
+-- LOCK TABLE
+LOCK TABLES products READ;
+UPDATE products SET QUANTITY = QUANTITY - 10 WHERE id = 'P1685356801'; -- Dapat update table yg di lock dengan status READ
+UNLOCK TABLES;
+LOCK TABLES products WRITE;
+UPDATE products SET QUANTITY = QUANTITY - 10 WHERE id = 'P1685356801'; -- Dapat update table yg di lock dengan status WRITE
+UNLOCK TABLES;
+
+-- LOCK INSTANCE
+LOCK INSTANCE FOR BACKUP;
+UNLOCK INSTANCE;
+
+
+
+
+

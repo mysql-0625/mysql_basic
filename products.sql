@@ -195,6 +195,14 @@ RIGHT JOIN products ON (products.id_category = categories.id);
 SELECT * FROM categories 
 CROSS JOIN products;
 
+-- Sub Query (Where n From)
+SELECT AVG(price) FROM products;
+SELECT * FROM products WHERE price > 22839.2857;
+SELECT * FROM products WHERE price > (SELECT AVG(price) FROM products);
+
+SELECT MAX(price) FROM products;
+UPDATE products SET price = 100000 WHERE id ='PP1685357013';
+SELECT MAX(cp.price) FROM (SELECT price FROM categories JOIN products ON (products.id_category = categories.id)) AS cp;
 
 
 

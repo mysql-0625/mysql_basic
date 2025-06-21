@@ -1,0 +1,12 @@
+-- BACKUP
+-- mysqldump mysql_hasan --user root --password --result-file=D:\QA\PZN\MySQL\mysql\mysql_learn.sql
+
+-- RESTORE
+-- CARA #1
+-- Create db manual dulu, kemudian import dengan command :
+-- mysql --user=root --password (nama_db_yg_sudah_dibuat) < (lokasi db)
+-- mysql --user=root --password mysql_import < D:\QA\PZN\MySQL\mysql\mysql_learn.sql
+-- CARA #2
+-- Create db manual dulu, kemudian use db yang sudah dibuat, dan import dengan command :
+-- use mysql_import;
+-- source D:\QA\PZN\MySQL\mysql\mysql_learn.sql
